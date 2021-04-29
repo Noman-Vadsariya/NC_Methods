@@ -1,2 +1,2 @@
 # NC_Methods
-Analyticals Methods in Python
+Analytical Methods in Python
