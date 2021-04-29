@@ -1,5 +1,4 @@
-# import parser
-from math import sin
+from lib.Parser import Parser
 import numpy as np
 
 
@@ -18,18 +17,29 @@ class Euler:
         y0 = self.y0
 
         print("X\t\tY")
-        print()
-        for i in np.arange(self.lowLimit, self.UpperLimit+self.h, self.h):
-            y1 = y0 + self.h*f(i, y0)
-            print(f"{round(i,2)}\t\t{round(y1,5)}")
+        print(f"{round(i,2)}\t\t{round(y0,5)}")
+
+        for i in np.arange(self.lowLimit, self.UpperLimit, self.h):
+            f = Parser(self.f,{'x':i,'y':y0} )
+            y1 = y0 + self.h*f.getValue()
+            print(f"{round(i+self.h,2)}\t\t{round(y1,5)}")
             y0 = y1
 
 
-f = (lambda x, y: y-(x*x)+1)
-E = Euler(f, 0.2, 0, 2, 0, 0.5)
-E.iteration()
+print("Enter Function: ")
+f= input()
+print("Enter Lower Limit: ")
+low = float(input())
+print("Enter Upper Limit: ")
+upper = float(input())
+print("Enter h: ")
+h = float(input())
+print("Enter Initial Conditions: ")
+print("x0 : ")
+x0 = float(input())
+print("y0 : ")
+y0 = float(input())
 
-# formula = "x**2+x**3"
-# code = parser.expr(formula).compile()
-# x = 10
-# print(eval(code))
+print()
+E = Euler(f,h , low, upper, x0, y0)
+E.iteration()
