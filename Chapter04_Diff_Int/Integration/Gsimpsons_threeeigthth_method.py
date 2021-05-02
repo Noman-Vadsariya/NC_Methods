@@ -1,19 +1,19 @@
 from math import *
 
 
-fx = input("Enter the function whose integral you wish to determine :")      
+fx = input("f(x) : ")      
 f  = lambda x: eval(fx)                                                      
 
 n = int(input('Enter the number of sub-intervals :'))
 
 if n % 3 == 0:
-	print("The chosen no. of sub-intervals is good")
+	print("OKAY ! Wait")
 else:
-	print("ERROR! : The chosen no. of sub-intervals should be a multiple of 3")
+	print("ERROR! No. of sub-intervals should be multiple of 2")
 	n = int(input("Enter the new no. of sub-intervals:"))
 
-a = float(input('Please provide the lower limit:')); 
-b = float(input('Please provide the upper limit:')); 
+a = float(input('Lower limit:')); 
+b = float(input('Upper limit:')); 
 
 s = f(a) + f(b)
 h  = float((b - a)/n)

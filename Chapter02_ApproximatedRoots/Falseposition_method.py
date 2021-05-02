@@ -24,7 +24,7 @@ def main():
 	b = float(b)
 	x = next(a, b, equation)
 
-	while abs(b-a) > 0.000001:  # Corrected upto 10^-6
+	while abs(b-a) > 0.00001:  # Corrected upto 10^-6
 		if(eval(equation) > 0):
 			b = x
 		else:
