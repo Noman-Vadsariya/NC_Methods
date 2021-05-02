@@ -8,7 +8,6 @@ def next(x, func, func_prime):
 	# Newton raphson method: next_x = x - {f(x)/f`(x)}
 	return x - (p/q)
 
-# driver function
 def  main():
 
 	# Input Format: x^2+4*x-2:
