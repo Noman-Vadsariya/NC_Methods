@@ -1,4 +1,4 @@
-class Forward_Difference:
+class Backward_Difference:
     
     def __init__(self,x_data,y_data):
 
@@ -20,7 +20,7 @@ class Forward_Difference:
 
         return t
 
-    def Construct_Forward_Difference_Table(self):
+    def Construct_Backward_Difference_Table(self):
 
         for i in range(1, len(self.x_data)):
             for j in range(len(self.x_data)-1,i-1,-1):
@@ -59,8 +59,8 @@ y[2][0] = 81
 y[3][0] = 93
 y[4][0] = 101
 
-fd = Forward_Difference(x, y)
-fd.Construct_Forward_Difference_Table()
+fd = Backward_Difference(x, y)
+fd.Construct_Backward_Difference_Table()
 fd.print_table()
 print()
 print(f'Interpolated Value: {round(fd.interpolate(1925),5)}')
