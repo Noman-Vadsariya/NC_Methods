@@ -18,17 +18,3 @@ class Bisection:
 
         print('******** BISECTION METHOD ********')
         print('Approximated root: ', x)
-
-
-if __name__ == "__main__":
-    #Input Format: x^2+4*x-2:
-    equation = input('f(x): ')
-    #Handling equation for eval()
-    equation = equation.replace("^", "**")
-
-    a = float(input('Lower Limit: '))
-    b = float(input('Upper limit: '))
-
-    obj = Bisection(equation,a,b)
-    obj.iterations()
-    

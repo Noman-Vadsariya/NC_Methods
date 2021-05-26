@@ -24,20 +24,3 @@ class NewtonRaphson:
 		
 		print('******** NEWTON RAPHSON ********')
 		print('Approximated root: ', x)
-
-if __name__ == "__main__":
-    # Input Format: x^2+4*x-2:
-	func = input('f(x): ')
-	# Handling func for eval()
-	func = func.replace("^", "**")
-
-	# Input Format: 2x+4
-	func_prime = input('First Derivative: ')
-	# Handling func for eval()	
-	func_prime = func_prime.replace("^","**")
-
-	a = float(input('Lower Limit: '))
-	b = float(input('Upper limit: '))
-
-	obj = NewtonRaphson(func,func_prime,a,b)
-	obj.iterations()

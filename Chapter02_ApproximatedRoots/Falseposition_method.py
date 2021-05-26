@@ -1,6 +1,5 @@
 from math import *
 
-
 class FalsePosition:
 	def __init__(self, equation, a, b):
 		self.equation = equation
@@ -29,16 +28,3 @@ class FalsePosition:
 
 		print('******** REGULAR FALSI METHOD ********')
 		print('Approximated root: ', x)
-
-
-if __name__ == "__main__":
-    # Input Format: x^2+4*x-2:
-    equation = input('f(x): ')
-    # Handling equation for eval()
-    equation = equation.replace("^", "**")
-
-    a = float(input('Lower Limit: '))
-    b = float(input('Upper limit: '))
-
-    obj = FalsePosition(equation, a, b)
-    obj.iterations()
