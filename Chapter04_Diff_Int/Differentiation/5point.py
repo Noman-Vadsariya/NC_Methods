@@ -62,10 +62,13 @@ class FivePoint:
         for i in range(len(self.x_data)):
 
             if(i-2 >= 0 and i+2 < len(self.x_data)):
+                self.isMidpoint = True
                 self.diff_data.append(self.FivePoint_Midpoint(i))
             elif (i+4 < len(self.x_data)):
+                self.isMidpoint = False
                 self.diff_data.append(self.Forward_FivePoint_Endpoint(i))
             else:
+                self.isMidpoint = False
                 self.diff_data.append(self.Backward_FivePoint_Endpoint(i))
 
             self.getErrorBound()
