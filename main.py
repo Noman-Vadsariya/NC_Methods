@@ -1,26 +1,21 @@
-import numpy
-from sympy import *
+# main entry point
 
-from Chapter02_ApproximatedRoots.Bisection_method import \
-    Bisection as bisection
-from Chapter02_ApproximatedRoots.Falseposition_method import \
-    FalsePosition as false_position
-from Chapter02_ApproximatedRoots.Newtonraphson_method import \
-    NewtonRaphson as newton_raphson
+# from src.app import run, root
 
-x = symbols('x')
-r = sympify('3*x').subs(x, 1).evalf()
+from src.ch_2.secant import secant_method
+from lib.input_parser import InputParser
+from src.ch_3.backward_diff import backwardDiff_method
+from src.ch_2.bisection import bisection_method
+from src.ch_2.false_position import falsePosition_method
+from src.ch_2.newton_raphson import newtonRaphson_method
 
-print(f"R = {r}")
+if __name__ == "main":
+	print("Hello World!")
 
-#Input Format: x^2+4*x-2:
-# equation = input('f(x): ')
-# Handling equation for eval()
-# equation = equation.replace("^", "**")
+# bisection_method("x^3 + 3x^2 + 12x + 8", -5, 5, maxIters=99)
+# falsePosition_method("x^3 + 3x^2 + 12x + 8", -5, 5, maxIters=99)
+# newtonRaphson_method("x^3 + 3x^2 + 12x + 8", -5, maxIters=99)
+# backwardDiff_method("3x + 2", [1891, 1901, 1911, 1921, 1931], [46, 66, 81, 93, 101], 1925)
+secant_method("x^3 + 3x^2 + 12x + 8", -5, 5, maxIters=99)
 
-# a = float(input('Lower Limit: '))
-# b = float(input('Upper limit: '))
-
-# obj = bisection(equation, a, b)
-# obj.iterations()
-
+# run(root)
