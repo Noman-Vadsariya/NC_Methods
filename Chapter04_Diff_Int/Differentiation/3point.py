@@ -112,11 +112,14 @@ if __name__ == "__main__":
         y_data.append(y)
         print()
 
+    print("Enter h: ",end="")
+    h = float(input())
+    
     print("Enter Function: ",end="")
     f = input()
     f = f.replace("^","**")
     
-    t = ThreePoint(x_data, y_data, 0.1,f)
+    t = ThreePoint(x_data, y_data, h,f)
     t.Differentiate()
     t.print_table()
 
