@@ -1,44 +1,46 @@
-from math import *
-import numpy as np
-from sympy import Symbol, sympify
+from lib.processor import Processor
 
-class Trapezium:
-	def __init__(self, f, a, b):
-		self.f = f
-		self.a = a
-		self.b = b
-	
-	def iterations(self):
+p = Processor()
 
-		fa = sympify(self.f).subs('x',self.a).evalf()
-		fb = sympify(self.f).subs('x',self.b).evalf()
-		s  = (fa + fb)/2.0
-		h = float((self.b - self.a)/n) 
-		
-		print(f"Interval (h): {h}")
+def trapezium_method(function = None, lowerLimit = None, upperLimit = None, intervals = None, tol = None, maxIters = None):
+	if tol is None:
+		tol = 10e-6
 
-		print("\nX\t\tY")
-		print(f"{a}\t\t{round(fa,7)}")
+	if maxIters is None:
+		maxIters = 5
 
-		for i in range(1,n):
-			
-			fa = sympify(self.f).subs('x',self.a + i*h).evalf()
-			print(f"{self.a + i*h}\t\t{round(fa,7)}")
+	if (not isinstance(tol, int) and not isinstance(tol, float)) or not isinstance(maxIters, int):
+		raise Exception("[invalid tolerance/max iterations parameters passed]")
 
-			s = s + fa
+	if maxIters < 0 or maxIters > 100:
+		raise Exception("[max iterations can only range between 0 to 100]")
 
-		print(f"{b}\t\t{fb}\n")
+	p.setFunc(function)
+	p.setLimits(lowerLimit, upperLimit)
+	p.setVariable("x")
+	p.clearResults()
 
-		area = s*h
-		print('\nAre Under the Curve :',round(area,7))
-     		
-if __name__ == "__main__":
-	f = input("Function : ")                                                           
-	f = f.replace("^","**")
+	y_lowerLimit = p.solveFunction({ "x": p.getLowerLimit() })
+	y_upperLimit = p.solveFunction({ "x": p.getUpperLimit() })
 
-	n = int(input('Total Sub-Intervals :')); 
-	a = float(input('Lower Limit : ')); 
-	b = float(input('Upper Limit : ')); 
+	h = (p.getUpperLimit() - p.getLowerLimit()) / intervals
+	p.setAttr("h", h)
 
-	obj = Trapezium(f, a, b)
-	obj.iterations()
+	result = y_lowerLimit
+	y_next = None
+
+	for i in range(1, intervals, 1):
+
+		y_next = p.solveFunction({ "x": (p.getLowerLimit() + (i * h)) })
+
+		p.addResult({
+			"lower limit": p.getLowerLimit(),
+			"f(lower limit)": y_next
+		})
+
+		result += (2 * y_next)
+
+	area = (h / 2) * (result + y_upperLimit)
+	print(f"Area Under The Curve = {area}")
+
+	p.printResults(("lower limit", "f(lower limit)"))

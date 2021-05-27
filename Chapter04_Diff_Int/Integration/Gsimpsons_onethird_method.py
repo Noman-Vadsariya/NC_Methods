@@ -1,48 +1,49 @@
-from math import *
-import numpy as np
-from sympy import *
+from lib.processor import Processor
 
-class OneThird:
-	def __init__(self, f, a, b):
-		self.f = f
-		self.a = a
-		self.b = b
+p = Processor()
 
-	def iterations(self):
-		
-		fa = sympify(self.f).subs('x',self.a).evalf()
-		fb = sympify(self.f).subs('x',self.b).evalf()
-		h = float((self.b - self.a)/n) 
+def simpson_1_3rd(function = None, lowerLimit = None, upperLimit = None, intervals = None, tol = None, maxIters = None):
+	if tol is None:
+		tol = 10e-6
 
-		print(f"Interval (h): {h}")
+	if maxIters is None:
+		maxIters = 5
 
-		s  = fa
-		print("\nX\t\tY")
-		print(f"{self.a}\t\t{round(fa,7)}")
+	if (not isinstance(tol, int) and not isinstance(tol, float)) or not isinstance(maxIters, int):
+		raise Exception("[invalid tolerance/max iterations parameters passed]")
 
-		for i in range(1,(n-1),2):
+	if maxIters < 0 or maxIters > 100:
+		raise Exception("[max iterations can only range between 0 to 100]")
 
-			fa = sympify(self.f).subs('x',self.a + i*h).evalf()
-			fa_h = sympify(self.f).subs('x',self.a + (i + 1)*h).evalf()
+	p.setFunc(function)
+	p.setLimits(lowerLimit, upperLimit)
+	p.setVariable("x")
+	p.clearResults()
 
-			print(f"{self.a + i*h}\t\t{round(fa,7)}")
-			print(f"{self.a + (i + 1)*h}\t\t{round(fa_h,7)}")
+	y_lowerLimit = p.solveFunction({ "x": p.getLowerLimit() })
+	y_upperLimit = p.solveFunction({ "x": p.getUpperLimit() })
 
-			s = s + 4*fa + 2*fa_h
-		
-		print(f"{b}\t\t{round(fb,7)}")
-		s = s + fb
-		area = s*(h/3)   
-		print('Area Under the Curve :',area)
+	h = (p.getUpperLimit() - p.getLowerLimit()) / intervals
+	p.setAttr("h", h)
 
-if __name__ == "__main__":
-	
-	f = input("Function : ")                                                           
-	f = f.replace("^","**")
+	result = y_lowerLimit
+	y_next = None
 
-	n = int(input('Total Sub-Intervals :')); 
-	a = float(input('Lower Limit : ')); 
-	b = float(input('Upper Limit : ')); 
+	for i in range(1, intervals, 1):
 
-	obj = OneThird(f, a, b)
-	obj.iterations()
+		y_next = p.solveFunction({ "x": (p.getLowerLimit() + (i * h)) })
+
+		p.addResult({
+			"lower limit": p.getLowerLimit(),
+			"f(lower limit)": y_next
+		})
+
+		if i % 2 == 0:
+			result += (2 * y_next)
+		else:
+			result += (4 * y_next)
+
+	area = (h / 3) * (result + y_upperLimit)
+	print(f"Area Under The Curve = {area}")
+
+	p.printResults(("lower limit", "f(lower limit)"))

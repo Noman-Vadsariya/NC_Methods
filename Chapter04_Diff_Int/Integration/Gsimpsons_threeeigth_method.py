@@ -1,51 +1,53 @@
-from math import *
-import numpy as np
+from lib.processor import Processor
 
-sin = np.sin
-cos = np.cos
-tan = np.tan
-pi  = np.pi
-exp = np.exp
-ln  = np.log
-log = np.log10
+p = Processor()
 
-class ThreeEighth:
-	def __init__(self, f, a, b):
-		self.f = f
-		self.a = a
-		self.b = b
+def simpson_3_8th(function = None, lowerLimit = None, upperLimit = None, intervals = None, tol = None, maxIters = None):
+	if tol is None:
+		tol = 10e-6
 
-	def  iterations(self):
+	if maxIters is None:
+		maxIters = 5
 
-		s = f(a) + f(b)
-		h  = float((b - a)/n)
+	if (not isinstance(tol, int) and not isinstance(tol, float)) or not isinstance(maxIters, int):
+		raise Exception("[invalid tolerance/max iterations parameters passed]")
 
-		for i in range(1,(n-1)):
-			s = s + 3*f(a + i*h)
+	if maxIters < 0 or maxIters > 100:
+		raise Exception("[max iterations can only range between 0 to 100]")
 
-		for j in range(3,(n-3),3):
-			s = s - 3*f(a + j*h)
+	p.setFunc(function)
+	p.setLimits(lowerLimit, upperLimit)
+	p.setVariable("x")
+	p.clearResults()
 
-		for k in range(3,(n-3),3):
-			s = s + 2*f(a + k*h)
+	y_lowerLimit = p.solveFunction({ "x": p.getLowerLimit() })
+	y_upperLimit = p.solveFunction({ "x": p.getUpperLimit() })
 
-		area = (s)*((3*h)/8)   
-		print('The Area is :',area)
+	h = (p.getUpperLimit() - p.getLowerLimit()) / intervals
+	p.setAttr("h", h)
 
-if __name__ == "__main__":
-	fx = input("f(x) : ")      
-	f  = lambda x: eval(fx)                                                      
+	result = y_lowerLimit
+	y_next = None
 
-	n = int(input('Enter the number of sub-intervals :'))
+	three_counter = 0
 
-	if n % 3 == 0:
-		print("OKAY ! Wait")
-	else:
-		print("ERROR! No. of sub-intervals should be multiple of 2")
-		n = int(input("Enter the new no. of sub-intervals:"))
+	for i in range(1, intervals, 1):
 
-	a = float(input('Lower limit:')); 
-	b = float(input('Upper limit:'));
-	
-	obj = ThreeEighth(f, a, b)
-	obj.iterations() 
+		y_next = p.solveFunction({ "x": (p.getLowerLimit() + (i * h)) })
+
+		p.addResult({
+			"lower limit": p.getLowerLimit(),
+			"f(lower limit)": y_next
+		})
+
+		if three_counter < 2:
+			result += (3 * y_next)
+			three_counter += 1
+		else:
+			result += (2 * y_next)
+			three_counter = 0
+
+	area = ((3 * h) / 8) * (result + y_upperLimit)
+	print(f"Area Under The Curve = {area}")
+
+	p.printResults(("lower limit", "f(lower limit)"))
