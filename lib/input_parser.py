@@ -1,6 +1,3 @@
-import numpy
-from sympy import sympify, symbols, diff
-
 class InputParser:
 	__instance = None
 
@@ -41,8 +38,3 @@ class InputParser:
 			i += 1
 		
 		return input_str
-
-	
-
-a = InputParser()
-a.sanitize_input(input())
