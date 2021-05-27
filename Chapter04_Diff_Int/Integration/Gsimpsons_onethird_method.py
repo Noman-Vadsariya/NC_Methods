@@ -1,6 +1,29 @@
 from math import *
+import numpy as np
 
-def  main():
+sin = np.sin
+cos = np.cos
+tan = np.tan
+pi  = np.pi
+exp = np.exp
+ln  = np.log
+log = np.log10
+class OneThird:
+	def __init__(self, f, a, b):
+		self.f = f
+		self.a = a
+		self.b = b
+	def iterations(self):
+		
+		s  = f(a) - f(b)
+		h = float((b - a)/n) 
+			
+		for i in range(1,(n-1),2):
+			s = s + 4*f(a + i*h) + 2*f(a + (i + 1)*h)
+		area = s*(h/3)   
+		print('The Area is :',area)
+
+if __name__ == "__main__":
 	fx = input("f(x) : ")      
 	f  = lambda x: eval(fx)                                                     
 	n = int(input('Enter the number of sub-intervals :'))
@@ -14,14 +37,5 @@ def  main():
 	a = float(input('Lower limit: ')); 
 	b = float(input('Upper limit: ')); 
 
-	s  = f(a) - f(b)
-	h = float((b - a)/n) 
-		
-	for i in range(1,(n-1),2):
-		s = s + 4*f(a + i*h) + 2*f(a + (i + 1)*h)
-	area = s*(h/3)   
-
-	print('The Area is :',area)
-
-if __name__ == "__main__":
-	main()
+	obj = OneThird(f, a, b)
+	obj.iterations()
