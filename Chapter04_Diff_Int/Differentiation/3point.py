@@ -47,7 +47,7 @@ class ThreePoint:
         d = diff(self.fx, self.x, 1)
         
         for i in range(len(self.x_data)):
-            Actual = d.subs(self.x, self.x_data[i])
+            Actual = float(d.subs(self.x, self.x_data[i]))
             self.absError.append(abs(Actual-self.diff_data[i]))
 
     def ThreePoint_Midpoint(self,index):
@@ -91,7 +91,7 @@ class ThreePoint:
         print()
         print('{:<10}{:<16}{:<16}{:<16}{:<16}'.format("X","F(x)","F'(X)","Absolute Error","Error Bound"))
         for i in range(len(self.x_data)):
-            print('{:<10}{:<16}{:<16}{:<16}{:<16}'.format(round(self.x_data[i],2),round(self.y_data[i],7),round(self.diff_data[i],7),round(self.absError[i],7),round(self.error_bounds[i],7)))
+            print('{:<10}{:<16}{:<16}{:<16}{:<16}'.format(round(self.x_data[i],2),round(self.y_data[i],7),round(self.diff_data[i],7),round(self.absError[i],12),round(self.error_bounds[i],12)))
 
 
 if __name__ == "__main__":
@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     print("Enter h: ",end="")
     h = float(input())
-    
+
     print("Enter Function: ",end="")
     f = input()
     f = f.replace("^","**")
