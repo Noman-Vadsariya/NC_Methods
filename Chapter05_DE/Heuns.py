@@ -2,6 +2,10 @@ import numpy as np
 from math import *
 from sympy import Symbol,sympify
 
+from lib.processor import Processor
+
+p = Processor()
+
 class Heuns:
     def __init__(self, f, h, lowLimit, UpperLimit, x0, y0, Diff_Func):
         self.f = f
@@ -21,11 +25,15 @@ class Heuns:
         x = Symbol('x')
         y = Symbol('y')
 
-        print('{:<10}{:<16}{:<16}{:<16}'.format('Xi','Yi',"Heun's","Absolute Error"))
         Actual = float(sympify(self.Diff_Func).subs('x',xi).evalf())
         Absolute_Error = Actual - y0
         Absolute_Error = abs(Absolute_Error)
-        print('{:<10}{:<16}{:<16}{:<16}'.format(round(xi,2),round(yi,7),round(Actual,7),round(Absolute_Error,7)))
+        p.addResult({
+            "Xi": xi,
+            "Yi": yi,
+            "Heuns": Actual,
+            "Absolute Error": Absolute_Error
+        })
 
         for i in np.arange(self.lowLimit, self.UpperLimit, self.h):
         
@@ -40,8 +48,15 @@ class Heuns:
             Actual = float(sympify(self.Diff_Func).subs('x',i+self.h).evalf())
             Absolute_Error = Actual - y1
             Absolute_Error = abs(Absolute_Error)
-            print('{:<10}{:<16}{:<16}{:<16}'.format(round(i+self.h,2),round(y1,7),round(Actual,7),round(Absolute_Error,7)))
+            p.addResult({
+                "Xi": (i + self.h),
+                "Yi": y1,
+                "Heuns": Actual,
+                "Absolute Error": Absolute_Error
+            })
             y0 = y1
+        
+        p.printResults(("Xi", "Yi", "Heuns", "Absolute Error"))
 
 if __name__ == "__main__":
     
