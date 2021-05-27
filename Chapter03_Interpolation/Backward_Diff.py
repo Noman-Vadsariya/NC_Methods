@@ -1,3 +1,4 @@
+
 class Backward_Difference:
     
     def __init__(self,x_data,y_data):
@@ -48,19 +49,48 @@ class Backward_Difference:
         
         return sum
 
-n = 5
-x = [ 1891, 1901, 1911,  1921, 1931 ]            
-y = [[0 for i in range(n)]
-        for j in range(n)]
+if __name__ == "__main__":
 
-y[0][0] = 46
-y[1][0] = 66
-y[2][0] = 81
-y[3][0] = 93
-y[4][0] = 101
+    print("Enter No Interpolating Points: ",end="")
+    no_points = int(input())
 
-fd = Backward_Difference(x, y)
-fd.Construct_Backward_Difference_Table()
-fd.print_table()
-print()
-print(f'Interpolated Value: {round(fd.interpolate(1925),5)}')
+    x_data = []
+    y_data = [[0 for i in range(no_points)] for i in range(no_points)]
+    j=0
+    print("\nEnter Interpolating Points: ")
+    for i in range(0,no_points):
+        print(f"x{i} : ",end="")
+        x = float(input())
+        x_data.append(x)
+        print(f"y{i} : ",end="")
+        y = float(input())
+        y_data[i][j] = y
+        print()
+
+    print("Enter Value to be Interpolated: ",end="")
+    # x=0.05
+    x = float(input())
+
+    bd = Backward_Difference(x_data, y_data)
+    bd.Construct_Backward_Difference_Table()
+    print("\n-----------Backward Difference Table-------------\n")
+    bd.print_table()
+    print()
+    print(f'Final Interpolated Value: {round(bd.interpolate(x),5)}')
+
+# n = 5
+# x = [ 1891, 1901, 1911,  1921, 1931 ]            
+# y = [[0 for i in range(n)]
+#         for j in range(n)]
+
+# y[0][0] = 46
+# y[1][0] = 66
+# y[2][0] = 81
+# y[3][0] = 93
+# y[4][0] = 101
+
+# fd = Backward_Difference(x, y)
+# fd.Construct_Backward_Difference_Table()
+# fd.print_table()
+# print()
+# print(f'Interpolated Value: {round(fd.interpolate(1925),5)}')
