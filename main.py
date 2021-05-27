@@ -2,12 +2,7 @@
 
 # from src.app import run, root
 
-from src.ch_2.secant import secant_method
-from lib.input_parser import InputParser
-from src.ch_3.backward_diff import backwardDiff_method
-from src.ch_2.bisection import bisection_method
-from src.ch_2.false_position import falsePosition_method
-from src.ch_2.newton_raphson import newtonRaphson_method
+from Chapter02_ApproximatedRoots.secant import secant_method
 
 if __name__ == "main":
 	print("Hello World!")
