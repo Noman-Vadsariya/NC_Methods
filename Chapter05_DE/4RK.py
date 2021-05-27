@@ -16,43 +16,40 @@ class FourthOrder:
 
     def iterations(self):
 
-        x = self.lowLimit
-        y = self.y0
+        xi = self.lowLimit
+        yi = self.y0
         y0 = self.y0
 
-        X = Symbol('X')
-        print("X\t\tY\t\tActual Values\tAbsolue Error")
-        Actual = float(sympify(self.Diff_Func).subs('X',x).evalf())
-        Absolute_Error = y - Actual 
+        
+        x = Symbol('x')
+        y = Symbol('y')
 
-        print(f"{round(x,2)}\t\t{round(y,7)}\t\t{round(Actual,7)}\t\t{round(Absolute_Error,7)}")
+        print('{:<10}{:<16}{:<16}{:<16}'.format('Xi','Yi',"Runge-Kutta","Absolute Error"))
+        Actual = float(sympify(self.Diff_Func).subs('x',xi).evalf())
+        Absolute_Error = Actual - y0
+        Absolute_Error = abs(Absolute_Error)
+        print('{:<10}{:<16}{:<16}{:<16}'.format(round(xi,2),round(y0,7),round(Actual,7),round(Absolute_Error,7)))
 
 
         for i in np.arange(self.lowLimit, self.UpperLimit, self.h):
         
-            k1 = self.h*eval(f)
+            k1 = self.h*sympify(self.f).subs([('x',i),('y',y0)]).evalf()
 
-            x = i + (self.h/2)
-            y = y0 + (1/2)*k1 
-            k2 = self.h*eval(f)
+            k2 = self.h*sympify(self.f).subs([('x',i + (self.h/2)),('y',y0 + (1/2)*k1)]).evalf()
             
-            x = i + (self.h/2)
-            y = y0 + (2 * 1/2)*k2
-            k3 = self.h*eval(f)
+            k3 = self.h*sympify(self.f).subs([('x',i + (self.h/2)),('y',y0 + (2 * 1/2)*k2)]).evalf()
             
-            x = i + self.h
-            y = y0 + k3
-            k4 = self.h*eval(f)
+            k4 = self.h*sympify(self.f).subs([('x',i + self.h),('y',y0 + k3)]).evalf()
             
             y1 = y0 + (1/6)*(k1+2*k2+2*k3+k4)
 
 
             #Actual Values and Error Values
-            Actual = sympify(self.Diff_Func).subs('X',i+self.h).evalf()
+            Actual = sympify(self.Diff_Func).subs('x',i+self.h).evalf()
             Absolute_Error = y1 - Actual 
             Absolute_Error = abs(Absolute_Error)
-            
-            print(f"{round(i+self.h,2)}\t\t{round(y1,7)}\t\t{round(Actual,7)}\t\t{round(Absolute_Error,7)}")
+
+            print('{:<10}{:<16}{:<16}{:<16}'.format(round(i+self.h,2),round(y1,7),round(Actual,7),round(Absolute_Error,7)))
             
             y0 = y1
 
@@ -75,7 +72,7 @@ if __name__ == "__main__":
     print("Differential Function: ")
     Diff_Func = input()
     Diff_Func = Diff_Func.replace("^", "**")
-    Diff_Func = Diff_Func.replace("x", "X")
 
+    print()
     ME = FourthOrder(f, h, low, upper,x0 , y0,Diff_Func)
     ME.iterations()

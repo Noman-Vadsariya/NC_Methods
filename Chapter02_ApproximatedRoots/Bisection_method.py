@@ -34,6 +34,7 @@ class Bisection:
             midpoint = (self.a+self.b)/2
 
         print('******** BISECTION METHOD ********')
+<<<<<<< HEAD
         print('Approximated root: ', midpoint)
 
 
@@ -50,3 +51,6 @@ if __name__ == "__main__":
     obj = Bisection(equation,a,b,tolerance)
     obj.iterations()
     
+=======
+        print('Approximated root: ', x)
+>>>>>>> 5d3a9f821955612fd5a41531db74d7f45ff5fdab

@@ -39,6 +39,7 @@ class FalsePosition:
 
 		print('******** REGULAR FALSI METHOD ********')
 		print('Approximated root: ', x)
+<<<<<<< HEAD
 
 
 if __name__ == "__main__":
@@ -53,3 +54,5 @@ if __name__ == "__main__":
 
     obj = FalsePosition(equation, a, b, tolerance)
     obj.iterations()
+=======
+>>>>>>> 5d3a9f821955612fd5a41531db74d7f45ff5fdab

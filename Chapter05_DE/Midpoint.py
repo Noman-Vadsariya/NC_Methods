@@ -1,37 +1,67 @@
-from lib.Parser import Parser
 from math import sin
+from sympy import Symbol,sympify
 import numpy as np
 
-
 class Midpoint:
-    def __init__(self, f, h, lowLimit, UpperLimit, x0, y0):
+    def __init__(self, f, h, lowLimit, UpperLimit, x0, y0,Diff_Func):
         self.f = f
         self.h = h
         self.lowLimit = lowLimit
         self.UpperLimit = UpperLimit
         self.x0 = x0
         self.y0 = y0
+        self.Diff_Func = Diff_Func
 
     def iterations(self):
 
         i = self.lowLimit
         y0 = self.y0
 
-        print("X\t\tY")
-        print(f"{round(i,2)}\t\t{round(y0,5)}")
+        x = Symbol('x')
+        y = Symbol('y')
+
+        print('{:<10}{:<12}{:<16}{:<16}'.format('Xi','Yi',"Midpoint","Absolute Error"))
+        Actual = float(sympify(self.Diff_Func).subs('x',i).evalf())
+        Absolute_Error = Actual - y0
+        Absolute_Error = abs(Absolute_Error)
+        print('{:<10}{:<12}{:<16}{:<16}'.format(round(i,2),round(y0,7),round(Actual,7),round(Absolute_Error,7)))
+
         for i in np.arange(self.lowLimit, self.UpperLimit, self.h):
-            f = Parser(self.f,{'x':i,'y':y0} )
-            f = Parser(self.f,{ 'x': i+(self.h/2) ,'y': y0 + (self.h/2)*f.getValue()} )
-            y1 = y0 + self.h*f.getValue()
+
+            k1 = float(sympify(self.f).subs([('x',i),('y',y0)]).evalf())
+
+            k2 = float(sympify(self.f).subs([('x',i+(self.h/2)),('y',y0+(self.h/2)*k1)]).evalf())
+            
+            y1 = y0 + self.h*k2
+            
+            Actual = float(sympify(self.Diff_Func).subs('x',i+self.h).evalf())
+            Absolute_Error = Actual - y1
+            Absolute_Error = abs(Absolute_Error)
+            print('{:<10}{:<12}{:<16}{:<16}'.format(round(i+self.h,2),round(y1,7),round(Actual,7),round(Absolute_Error,7)))
+
             y0 = y1
-            print(f"{round(i+self.h,2)}\t\t{round(y1,5)}")
 
+if __name__ == "__main__":
+    
+    print("Enter Function: ",end= '')
+    f= input()
+    f = f.replace("^", "**")
+    print("Enter Lower Limit: ",end= '')
+    low = float(input())
+    print("Enter Upper Limit: ",end= '')
+    upper = float(input())
+    print("Enter h: ",end= '')
+    h = float(input())
+    print("Enter Initial Conditions: ")
+    print("x0 : ",end= '')
+    x0 = float(input())
+    print("y0 : ",end= '')
+    y0 = float(input())
+    print()
+    print("Differential Function: ")
+    Diff_Func = input()
+    Diff_Func = Diff_Func.replace("^", "**")
 
-# f = (lambda x, y: y-(x*x)+1)
-# md = Midpoint(f, 0.2, 0, 2, 0, 0.5)
-# md.iteration()
-
-f = "1 + (y/x)"
-md = Midpoint(f, 0.25, 1, 2, 1, 2)
-md.iterations()
-
+    ME = Midpoint(f, h, low, upper,x0 , y0, Diff_Func)
+    print()
+    ME.iterations()
