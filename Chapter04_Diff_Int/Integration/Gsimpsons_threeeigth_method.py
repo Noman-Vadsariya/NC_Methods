@@ -1,6 +1,7 @@
 from lib.processor import Processor
 
 p = Processor()
+p.setVariable("x")
 
 def simpson_3_8th(function = None, lowerLimit = None, upperLimit = None, intervals = None, tol = None, maxIters = None):
 	if tol is None:
@@ -17,7 +18,6 @@ def simpson_3_8th(function = None, lowerLimit = None, upperLimit = None, interva
 
 	p.setFunc(function)
 	p.setLimits(lowerLimit, upperLimit)
-	p.setVariable("x")
 	p.clearResults()
 
 	y_lowerLimit = p.solveFunction({ "x": p.getLowerLimit() })

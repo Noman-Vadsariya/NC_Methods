@@ -1,3 +1,8 @@
+from lib.processor import Processor
+
+p = Processor()
+p.setVariable("x")
+
 class Lagrange:
 
     def __init__(self,x_data,y_data):
@@ -15,7 +20,19 @@ class Lagrange:
                     prev = prev * (x - self.x_data[j])/(self.x_data[i] - self.x_data[j])
             
             y = y + prev * self.y_data[i]
-            print(f"Value After 1st Iteration: {round(prev * self.y_data[i],5)}") 
+            p.addResult({
+                "iterative interpolated value": (prev * self.y_data[i]),
+            })
+
+        p.printResults(("iterative interpolated value", ))
+
+        p.clearResults()
+
+        p.addResult({
+            "final interpolated value": y
+        })
+
+        p.printResults(("final interpolated value", ))
 
         return y
     
