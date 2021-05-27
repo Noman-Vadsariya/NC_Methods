@@ -12,13 +12,13 @@ class OneThird:
 		
 		fa = sympify(self.f).subs('x',self.a).evalf()
 		fb = sympify(self.f).subs('x',self.b).evalf()
-		s  = fa - fb
-		h = float((b - a)/n) 
+		h = float((self.b - self.a)/n) 
 
 		print(f"Interval (h): {h}")
 
+		s  = fa
 		print("\nX\t\tY")
-		print(f"{a}\t\t{round(fa,7)}")
+		print(f"{self.a}\t\t{round(fa,7)}")
 
 		for i in range(1,(n-1),2):
 
@@ -31,7 +31,7 @@ class OneThird:
 			s = s + 4*fa + 2*fa_h
 		
 		print(f"{b}\t\t{round(fb,7)}")
-
+		s = s + fb
 		area = s*(h/3)   
 		print('Area Under the Curve :',area)
 
