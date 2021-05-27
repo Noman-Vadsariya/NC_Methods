@@ -1,41 +1,48 @@
 from math import *
 import numpy as np
+from sympy import *
 
-sin = np.sin
-cos = np.cos
-tan = np.tan
-pi  = np.pi
-exp = np.exp
-ln  = np.log
-log = np.log10
 class OneThird:
 	def __init__(self, f, a, b):
 		self.f = f
 		self.a = a
 		self.b = b
+
 	def iterations(self):
 		
-		s  = f(a) - f(b)
+		fa = sympify(self.f).subs('x',self.a).evalf()
+		fb = sympify(self.f).subs('x',self.b).evalf()
+		s  = fa - fb
 		h = float((b - a)/n) 
-			
+
+		print(f"Interval (h): {h}")
+
+		print("\nX\t\tY")
+		print(f"{a}\t\t{round(fa,7)}")
+
 		for i in range(1,(n-1),2):
-			s = s + 4*f(a + i*h) + 2*f(a + (i + 1)*h)
+
+			fa = sympify(self.f).subs('x',self.a + i*h).evalf()
+			fa_h = sympify(self.f).subs('x',self.a + (i + 1)*h).evalf()
+
+			print(f"{self.a + i*h}\t\t{round(fa,7)}")
+			print(f"{self.a + (i + 1)*h}\t\t{round(fa_h,7)}")
+
+			s = s + 4*fa + 2*fa_h
+		
+		print(f"{b}\t\t{round(fb,7)}")
+
 		area = s*(h/3)   
-		print('The Area is :',area)
+		print('Area Under the Curve :',area)
 
 if __name__ == "__main__":
-	fx = input("f(x) : ")      
-	f  = lambda x: eval(fx)                                                     
-	n = int(input('Enter the number of sub-intervals :'))
+	
+	f = input("Function : ")                                                           
+	f = f.replace("^","**")
 
-	if n % 2 == 0:
-		print("OKAY ! Wait")
-	else:
-		print("ERROR! No. of sub-intervals should be multiple of 2")
-		n = int(input("Enter the new no. of sub-intervals:"))
-
-	a = float(input('Lower limit: ')); 
-	b = float(input('Upper limit: ')); 
+	n = int(input('Total Sub-Intervals :')); 
+	a = float(input('Lower Limit : ')); 
+	b = float(input('Upper Limit : ')); 
 
 	obj = OneThird(f, a, b)
 	obj.iterations()
