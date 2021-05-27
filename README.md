@@ -12,4 +12,4 @@ At least 3 methods each from chapters 2, 3, 4 and 5 of **Numerical Analysis, 9th
 ## Prerequisites
 
 - Python 3.x
-- ``$ pip install numpy sympy tk``
+- ``$ pip install numpy sympy tabulate``

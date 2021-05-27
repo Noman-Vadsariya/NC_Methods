@@ -1,11 +1,11 @@
 class InputParser:
 	__instance = None
 
-	def __init__(self):
-		if InputParser.__instance != None:
-			raise Exception("[object is singleton]")
+	# def __init__(self):
+	# 	if InputParser.__instance != None:
+	# 		return InputParser.__instance
 
-		InputParser.__instance = self
+	# 	InputParser.__instance = self
 
 	@staticmethod
 	def getInstance():

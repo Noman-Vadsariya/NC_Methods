@@ -3,7 +3,7 @@ from lib.processor import Processor
 p = Processor()
 p.setVariable("x")
 
-def bisection_method(function = None, lowerLimit = None, upperLimit = None, tol = None, maxIters = None):
+def falsePosition_method(function = None, lowerLimit = None, upperLimit = None, tol = None, maxIters = None):
 	if tol is None:
 		tol = 10e-6
 
@@ -20,7 +20,10 @@ def bisection_method(function = None, lowerLimit = None, upperLimit = None, tol 
 	p.setLimits(lowerLimit, upperLimit)
 	p.clearResults()
 
-	x = calcNextLimit()
+	y_upperLimit = p.solveFunction({ "x": p.getUpperLimit() })
+	y_lowerLimit = p.solveFunction({ "x": p.getLowerLimit() })
+
+	x = calcNextLimit(y_upperLimit, y_lowerLimit)
 
 	i = 0
 	result = None
@@ -31,6 +34,8 @@ def bisection_method(function = None, lowerLimit = None, upperLimit = None, tol 
 		p.addResult({
 			"lower limit": p.getLowerLimit(),
 			"upper limit": p.getUpperLimit(),
+			"f(upper limit)": y_upperLimit,
+			"f(lower limit)": y_lowerLimit,
 			"x": x,
 			"y": result,
 			"absolute error": calcAbsoluteError(x, i - 1)
@@ -43,11 +48,14 @@ def bisection_method(function = None, lowerLimit = None, upperLimit = None, tol 
 			p.setLimits(p.getLowerLimit(), x)
 		else:
 			p.setLimits(x, p.getUpperLimit())
+
+		y_upperLimit = p.solveFunction({ "x": p.getUpperLimit() })
+		y_lowerLimit = p.solveFunction({ "x": p.getLowerLimit() })
 		
-		x = calcNextLimit()
+		x = calcNextLimit(y_upperLimit, y_lowerLimit)
 		i += 1
 
-	p.printResults(("lower limit", "upper limit", "x", "y", "absolute error"))
+	p.printResults(("lower limit", "upper limit", "f(upper limit)", "f(lower limit)", "x", "y", "absolute error"))
 
 def calcAbsoluteError(x, index):
 	prevX = None
@@ -59,5 +67,5 @@ def calcAbsoluteError(x, index):
 
 	return abs(x - prevX)
 
-def calcNextLimit():
-	return (p.getLowerLimit() + p.getUpperLimit()) / 2
+def calcNextLimit(yWithUpperLimit, yWithLowerLimit):
+	return ((p.getLowerLimit() * yWithUpperLimit) - (p.getUpperLimit() * yWithLowerLimit)) / (yWithUpperLimit - yWithLowerLimit)

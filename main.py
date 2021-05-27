@@ -1,27 +1,21 @@
 # main entry point
 
-from lib.processor import Processor
 # from src.app import run, root
+
+from src.ch_2.secant import secant_method
+from lib.input_parser import InputParser
+from src.ch_3.backward_diff import backwardDiff_method
+from src.ch_2.bisection import bisection_method
+from src.ch_2.false_position import falsePosition_method
+from src.ch_2.newton_raphson import newtonRaphson_method
 
 if __name__ == "main":
 	print("Hello World!")
 
-a = Processor()
-a.setVariable('x')
-print(a.x)
-a.setLimits(0, 2)
-print(a.getUpperLimit())
-a.setPoints("x", [1, 2, 3, 4])
-print(a.pointsOnX)
-print(a.pointsOnY)
-a.setFunc("exp(2x)")
-print(a.function)
-print(a.parsedFunction)
-print(a.sympyFunction)
-a.derivate("x", 3)
-print(a.derivations)
-a.derivate("x", 5)
-print(a.derivations)
-print(a.solveFunction({ "x": 2 }))
-print(a.solveDerivative("x", { "x": 2 }, 3))
+# bisection_method("x^3 + 3x^2 + 12x + 8", -5, 5, maxIters=99)
+# falsePosition_method("x^3 + 3x^2 + 12x + 8", -5, 5, maxIters=99)
+# newtonRaphson_method("x^3 + 3x^2 + 12x + 8", -5, maxIters=99)
+# backwardDiff_method("3x + 2", [1891, 1901, 1911, 1921, 1931], [46, 66, 81, 93, 101], 1925)
+secant_method("x^3 + 3x^2 + 12x + 8", -5, 5, maxIters=99)
+
 # run(root)

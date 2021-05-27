@@ -1,7 +1,6 @@
-# from sympy import symbols, sympify
-# from sympy.core.function import diff
-# from sympy.core.evalf import evalf
+from numpy import double
 from sympy import *
+from tabulate import tabulate
 from .input_parser import InputParser
 
 class Processor:
@@ -148,8 +147,8 @@ class Processor:
 		if function is None:
 			function = self.sympyFunction
 
-		if function is None:
-			raise Exception("[unable to find function assignment]")
+		if self.variables is None:
+			raise Exception("[unable to find variables assignment]")
 
 		variables = self.variables.keys()
 
@@ -169,7 +168,7 @@ class Processor:
 		except:
 			raise Exception("[unable to evaluate function]")
 
-		return result
+		return float(result)
 
 	def solveDerivative(self, variable = None, valueMap = None, n = None):
 		if not isinstance(variable, str) or not variable.isalpha() or len(variable) != 1:
@@ -196,3 +195,57 @@ class Processor:
 			raise Exception(f"[unable to derivate this function {n} times]")
 
 		return self.solveFunction(valueMap, self.derivations[n - 1])
+
+	def clearResults(self):
+		if self.results is None:
+			return
+
+		self.results = []
+
+	# result is a dict containing values at different intervals
+	def addResult(self, result = None):
+		if result == None or not isinstance(result, dict):
+			raise Exception("[invalid result parameter passed]")
+
+		if self.results is None:
+			self.setAttr("results", list())
+
+		n = None
+		for key in result:
+			n = result[key]
+
+			if (isinstance(n, str) and n.isnumeric()) or  (isinstance(n, Basic)):
+				n = float(n)
+
+			if isinstance(n, int) or isinstance(n, float) or isinstance(n, double):
+				result[key] = round(n, 5)
+
+		self.results.append(result)
+
+	def getResultAtIndex(self, index = None):
+		if index is None or not isinstance(index, int) or index < 0:
+			raise Exception("[invalid index parameter passed]")
+
+		if self.results is None or (len(self.results) - 1) < index:
+			return None
+
+		return self.results[index]
+
+	def printResults(self, columns = None):
+		if columns is None or not isinstance(columns, tuple):
+			raise Exception("[tuple of column names must be passed as a parameter]")
+
+		data = []
+		buff = []
+
+		if self.results is not None:
+			for result in self.results:
+				for key in result:
+					buff.append(result.get(key))
+
+				data.append(buff)
+				buff = []
+		
+		table = tabulate(data, headers=columns, tablefmt="pretty")
+
+		print(table)
