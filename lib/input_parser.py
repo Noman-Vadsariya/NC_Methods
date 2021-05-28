@@ -88,7 +88,7 @@ class InputParser:
 		else:
 			n = input(prompt)
 
-		if n.isnumeric() == False:
-			raise Exception("[only numeric input is accepted]")
+		# if n.isnumeric() == False:
+		# 	raise Exception("[only numeric input is accepted]")
 
 		return float(n)
