@@ -109,13 +109,13 @@ while keepRunning:
 		interpolation_target = ip.getNumInput("Enter value to interpolate = ")
 
 		if opt == 0:
-			o = Backward_Difference(x_points, y_points)
+			o = Backward_Difference(x_points, y_matrix)
 			o.Construct_Backward_Difference_Table()
 			o.print_table()
 			result = o.interpolate(interpolation_target)
 		elif opt == 1:
-			o = Forward_Difference(x_points, y_points)
-			o.Construct_Backward_Difference_Table()
+			o = Forward_Difference(x_points, y_matrix)
+			o.Construct_Forward_Difference_Table()
 			o.print_table()
 			result = o.interpolate(interpolation_target)
 		elif opt == 2:
@@ -141,19 +141,34 @@ while keepRunning:
 			h = ip.getNumInput("Enter h = ")
 			x_points = list(map(float, (ip.getInputStr("Enter points on x (space-sep) = ")).split(" ")))
 			y_points = list(map(float, (ip.getInputStr("Enter points on y (space-sep) = ")).split(" ")))
+			if (len(x_points) != len(y_points)):
+				print("Uneven x, f(x) values provided; try again")
+				continue
 		else:
 			lowerLimit = ip.getNumInput("Lower Limit = ")
 			upperLimit = ip.getNumInput("Upper Limit = ")
 			intervals = ip.getNumInput("Intervals = ")
 		if opt == 0:
+			if (len(x_points) < 3):
+				print("\nAt least 3 points need to be entered; try again\n")
+				continue
+	
 			o = ThreePoint(x_points, y_points, h, equation)
 			o.Differentiate()
 			o.print_table()
 		elif opt == 1:
+			if (len(x_points) < 5):
+				print("\nAt least 5 points need to be entered; try again\n")
+				continue
+
 			o = FivePoint(x_points, y_points, h, equation)
 			o.Differentiate()
 			o.print_table()
 		elif opt == 2:
+			if (len(x_points) < 2):
+				print("\nAt least 2 points need to be entered; try again\n")
+				continue
+
 			o = Forward_Backward(x_points, y_points, h, equation)
 			o.Differentiate()
 			o.print_table()

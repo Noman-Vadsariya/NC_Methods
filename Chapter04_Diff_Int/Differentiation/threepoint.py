@@ -1,4 +1,7 @@
 from sympy import *
+from lib.processor import Processor
+
+p = Processor()
 
 class ThreePoint:
     
@@ -87,11 +90,18 @@ class ThreePoint:
         return self.diff_data
 
     def print_table(self):
+        p.clearResults()
 
-        print()
-        print('{:<10}{:<16}{:<16}{:<16}{:<16}'.format("X","F(x)","F'(X)","Absolute Error","Error Bound"))
         for i in range(len(self.x_data)):
-            print('{:<10}{:<16}{:<16}{:<16}{:<16}'.format(round(self.x_data[i],2),round(self.y_data[i],7),round(self.diff_data[i],7),round(self.absError[i],12),round(self.error_bounds[i],12)))
+            p.addResult({
+                "x": self.x_data[i],
+                "y": self.y_data[i],
+                "y'": self.diff_data[i],
+                "absolute error": self.absError[i],
+                "error bound": self.error_bounds[i],
+            })
+
+        p.printResults(("x", "y", "y'", "absolute error", "error bound"))
 
 
 if __name__ == "__main__":

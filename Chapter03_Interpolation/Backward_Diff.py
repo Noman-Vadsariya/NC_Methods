@@ -69,35 +69,6 @@ class Backward_Difference:
 
         return sum
 
-if __name__ == "__main__":
-
-    print("Enter No Interpolating Points: ",end="")
-    no_points = int(input())
-
-    x_data = []
-    y_data = [[0 for i in range(no_points)] for i in range(no_points)]
-    j=0
-    print("\nEnter Interpolating Points: ")
-    for i in range(0,no_points):
-        print(f"x{i} : ",end="")
-        x = float(input())
-        x_data.append(x)
-        print(f"y{i} : ",end="")
-        y = float(input())
-        y_data[i][j] = y
-        print()
-
-    print("Enter Value to be Interpolated: ",end="")
-    # x=0.05
-    x = float(input())
-
-    bd = Backward_Difference(x_data, y_data)
-    bd.Construct_Backward_Difference_Table()
-    print("\n-----------Backward Difference Table-------------\n")
-    bd.print_table()
-    print()
-    print(f'Final Interpolated Value: {round(bd.interpolate(x),5)}')
-
 # n = 5
 # x = [ 1891, 1901, 1911,  1921, 1931 ]            
 # y = [[0 for i in range(n)]

@@ -68,36 +68,6 @@ class Forward_Difference:
 
         return sum
 
-
-if __name__ == "__main__":
-
-    print("Enter No Interpolating Points: ",end="")
-    no_points = int(input())
-
-    x_data = []
-    y_data = [[0 for i in range(no_points)] for i in range(no_points)]
-    j=0
-    print("\nEnter Interpolating Points: ")
-    for i in range(0,no_points):
-        print(f"x{i} : ",end="")
-        x = float(input())
-        x_data.append(x)
-        print(f"y{i} : ",end="")
-        y = float(input())
-        y_data[i][j] = y
-        print()
-
-    print("Enter Value to be Interpolated: ",end="")
-    # x=0.05
-    x = float(input())
-
-    fd = Forward_Difference(x_data, y_data)
-    fd.Construct_Forward_Difference_Table()
-    print("\n-----------Forward Difference Table-------------\n")
-    fd.print_table()
-    print()
-    print(f'Final Interpolated Value: {round(fd.interpolate(x),5)}')
-
 # n = 5
 # x = [0,0.2,0.4,0.6,0.8]
 # y = [[0 for i in range(n)]

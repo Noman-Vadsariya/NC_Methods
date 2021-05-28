@@ -218,7 +218,7 @@ class Processor:
 				n = float(n)
 
 			if isinstance(n, int) or isinstance(n, float) or isinstance(n, double):
-				result[key] = round(n, 5)
+				result[key] = round(n, 7)
 
 		self.results.append(result)
 
