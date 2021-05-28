@@ -12,6 +12,7 @@ class Lagrange:
     def interpolate(self,x):
         
         y = 0 #interpolated value
+        p.clearResults()
 
         for i in range(len(self.x_data)):
             prev = 1            

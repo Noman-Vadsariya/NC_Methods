@@ -22,6 +22,7 @@ class Modified_Euler:
 
         x = Symbol('x')
         y = Symbol('y')
+        p.clearResults()
 
         Actual = float(sympify(self.Diff_Func).subs('x',i).evalf())
         Absolute_Error = Actual - y0

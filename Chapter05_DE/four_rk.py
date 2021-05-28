@@ -27,6 +27,7 @@ class FourthOrder:
         
         x = Symbol('x')
         y = Symbol('y')
+        p.clearResults()
 
         # print('{:<10}{:<16}{:<16}{:<16}'.format('Xi','Yi',"Runge-Kutta","Absolute Error"))
         Actual = float(sympify(self.Diff_Func).subs('x',xi).evalf())

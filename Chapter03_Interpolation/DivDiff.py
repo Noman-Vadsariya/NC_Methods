@@ -1,4 +1,7 @@
 import numpy as np
+from lib.processor import Processor
+
+pr = Processor()
 
 class DividedDifference:
 
@@ -27,8 +30,25 @@ class DividedDifference:
         n = len(self.x_data) - 1  # Degree of polynomial
         p = a[n]
 
+        pr.clearResults()
+        pr.addResult({
+            "iterative interpolated value": p
+        })
+
         for k in range(1, n + 1):
             p = a[n - k] + (x - self.x_data[n - k])*p
+            pr.addResult({
+                "iterative interpolated value": p
+            })
+
+        pr.printResults(("iterative interpolated value", ))
+
+        pr.clearResults()
+        pr.addResult({
+            "final interpolated value": p
+        })
+
+        pr.printResults(("final interpolated value",))
 
         return p
 

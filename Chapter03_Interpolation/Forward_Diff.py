@@ -1,3 +1,7 @@
+from lib.processor import Processor
+
+p = Processor()
+
 class Forward_Difference:
     
     def __init__(self,x_data,y_data):
@@ -42,9 +46,26 @@ class Forward_Difference:
 
         S = (x - self.x_data[0]) / (self.x_data[1] - self.x_data[0])
 
+        p.clearResults()
+        p.addResult({
+            "iterative interpolated value": sum
+        })
+
         for i in range(1,len(self.x_data)):
             sum = sum + (self.get_S(S, i) * self.y_data[0][i]) / self.factorial(i)
-        
+            p.addResult({
+                "iterative interpolated value": sum
+            })
+
+        p.printResults(("iterative interpolated value", ))
+
+        p.clearResults()
+        p.addResult({
+            "final interpolated value": sum
+        })
+
+        p.printResults(("final interpolated value",))
+
         return sum
 
 

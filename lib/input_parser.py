@@ -91,4 +91,4 @@ class InputParser:
 		if n.isnumeric() == False:
 			raise Exception("[only numeric input is accepted]")
 
-		return n
+		return float(n)
